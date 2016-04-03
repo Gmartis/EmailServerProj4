@@ -1,7 +1,8 @@
 /**
  * Created by GraysonMartis on 4/2/16.
  */
-import java.util.*;
+import java.util.Arrays;
+
 public class DynamicBuffer {
     private int initSize;//initial size of array
     private int aSize;  //current size of array
@@ -70,9 +71,26 @@ public class DynamicBuffer {
     //Return all emails if n is greater than the number of emails in the buffer
     //Return null if the buffer is empty or an invalid number of emails is requested (e.g. -1)
     public Email[] getNewest(int n) {
-        if (n <= 0) {
+        if (n <= 0 || numEmails == 0) {
             return null;
         }
+        if (n > numEmails) {
+            return emailArray;
+        }
+        Email[] temp = new Email[n];
+        int counter = 1;
+        for (int i = numEmails - 1; i >= 0; i--) {
+            for (int a = 0; a < counter; a++) {
+                if (temp[a] == null) {
+                    temp[a] = emailArray[i];
+                }
+            }
+            counter++;
+            if (counter > n) {
+                break;
+            }
+        }
+        return temp;
     }
 
 
